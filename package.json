@@ -7,7 +7,6 @@
   "homepage": "https://skeoh.com/global-address-key",
   "dependencies": {
     "@types/jest": "^29.5.14",
-    "@types/node": "20.9.3",
     "@types/react": "18.0.14",
     "@types/react-dom": "18.0.5",
     "@vitejs/plugin-react": "^4.3.4",
@@ -20,6 +19,7 @@
     "vite-plugin-node-polyfills": "^0.23.0"
   },
   "devDependencies": {
+    "@types/node": "^22.13.9",
     "gh-pages": "^6.3.0"
   },
   "scripts": {
