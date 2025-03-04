@@ -9,6 +9,7 @@
       "dom",
       "es2015"
     ],
+    "types": ["vite/client"],
     "jsx": "react",
     "target": "es2020"
   }
