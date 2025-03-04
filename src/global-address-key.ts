@@ -18,6 +18,14 @@ export function* iterateGlobalAddresskeyFields(globalAddressKey: string): Iterab
   }
 }
 
+export function getFieldByName(globalAddressKey: string, fieldName: string): string | null {
+  for (const [name, value] of iterateGlobalAddresskeyFields(globalAddressKey)) {
+    if (name !== fieldName) continue;
+    return value || null;
+  }
+  return null;
+}
+
 /**
  * Gets the "alt key" (GNAF PID) from a global address key. Will return `null`
  * if no alt key is declared in this global address key.
@@ -29,10 +37,5 @@ export function* iterateGlobalAddresskeyFields(globalAddressKey: string): Iterab
  * console.log(gnafpId); // => "GAQLD155815970"
  */
 export function getAltKey(globalAddressKey: string): string | null {
-  for (const [name, value] of iterateGlobalAddresskeyFields(globalAddressKey)) {
-    if (name === 'alt_key') {
-      return value || null;
-    }
-  }
-  return null;
+  return getFieldByName(globalAddressKey, 'alt_key');
 }

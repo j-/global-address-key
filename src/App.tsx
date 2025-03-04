@@ -1,4 +1,4 @@
-import React, { useCallback, useId, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { GlobalAddressKeyField, iterateGlobalAddresskeyFields } from './global-address-key';
 import { useIsDirty } from './use-is-dirty';
 
@@ -20,7 +20,7 @@ const App: React.FC = () => {
   const { isDirty, setClean } = useIsDirty(inputRef);
   const [fields, setFields] = useState<GlobalAddressKeyField[] | null>();
   const [error, setError] = useState<Error | null>(null);
-  
+
   const handleFormSubmit = useCallback<React.FormEventHandler<HTMLFormElement>>((e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
@@ -43,15 +43,21 @@ const App: React.FC = () => {
     setClean(null);
   }, []);
 
-  const handleTextareaPaste = useCallback<React.ClipboardEventHandler<HTMLTextAreaElement>>((e) => {
-    // Only respond to paste events when the input was empty.
-    if (e.currentTarget.value) return;
-    // Input should always be within a form.
-    const form = e.currentTarget.form;
+  useEffect(() => {
+    const input = inputRef.current;
+    if (!input) return;
+    const form = input.form;
     if (!form) return;
-    // Input value will change later in this event loop. Wait until then.
-    setTimeout(() => form.requestSubmit(), 0);
-  }, []);
+    const pasteHandler = () => {
+      input.select();
+      setTimeout(() => {
+        form.requestSubmit();
+        input.select();
+      }, 0);
+    };
+    window.addEventListener('paste', pasteHandler, { capture: true });
+    return () => window.removeEventListener('paste', pasteHandler);
+  }, [])
 
   return (
     <div className="App container my-5">
@@ -69,7 +75,6 @@ const App: React.FC = () => {
             name={INPUT_NAME}
             defaultValue={DEFAULT_VALUE}
             rows={6}
-            onPaste={handleTextareaPaste}
           />
         </div>
 
