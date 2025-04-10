@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { GlobalAddressKeyField, iterateGlobalAddresskeyFields } from './global-address-key';
 import { useIsDirty } from './use-is-dirty';
+import './App.css';
 
 const INPUT_NAME = 'globalAddressKey';
 const DEFAULT_VALUE = '';
@@ -136,7 +137,7 @@ const App: React.FC = () => {
                 >
                   {name}
                 </button>
-                <input className="form-control form-control-sm font-monospace" value={value} readOnly />
+                <input className="form-control font-monospace App-input" value={value} readOnly />
               </div>
             </li>
           ))}
