@@ -1,12 +1,13 @@
 .FieldsTable-value {
   display: inline;
-  font-family: monospace;
   background: #09c1 url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' preserveAspectRatio='none'><path fill='none' stroke='%2309c8' line-width='1px' d='M0 0H9V9H0Z' vector-effect='non-scaling-stroke'/></svg>") 0 0/1ch;
   white-space: pre-wrap;
   line-break: anywhere;
+  font-size: 14px;
 }
 
 .FieldsTable-length {
   pointer-events: none;
   user-select: none;
+  font-size: 14px;
 }
