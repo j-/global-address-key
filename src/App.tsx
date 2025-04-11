@@ -1,19 +1,13 @@
-import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
+import React, { type FC, type FormEventHandler, useCallback, useEffect, useId, useRef, useState } from 'react';
+import { FieldsTable } from './FieldsTable';
 import { GlobalAddressKeyField, iterateGlobalAddresskeyFields } from './global-address-key';
 import { useIsDirty } from './use-is-dirty';
-import './App.css';
+import { examples } from './examples';
 
 const INPUT_NAME = 'globalAddressKey';
 const DEFAULT_VALUE = '';
 
-// https://docs.experianaperture.io/address-validation/experian-address-validation/address-api-reference/api-specification/#/Address%20Validation/post_address_search_v1
-const examples = [
-  'aWQ9NTYgUXVlZW5zIFJvYWQsIEFTUVVJVEggIE5TVyAyMDc3LCBBdXN0cmFsaWF-YWx0X2tleT0zNzgyMjk0Nn5kYXRhc2V0PUFVU19QQUZ-Zm9ybWF0X2tleT1BVVMkYXUtYWRkcmVzcyQ3LjczMDFPQVVTSEFybUJ3QUFBQUFJQWdFQUFBQUFDZkQ1Z0FBQUFBQUFBRFUyQUFELi4yUUFBQUFBLi4uLi53QUFBQUFBQUFBQUFBQUFBQUFBQURVMklGRjFaV1Z1Y3lCU0FBQUFBQUEtJCQk',
-  'aWQ9MTIgSGlnaCBTdHJlZXQsIEFSTUlEQUxFICBOU1cgMjM1MCwgQXVzdHJhbGlhfmFsdF9rZXk9R0FOU1c3MDY2NTA5NTZ-ZGF0YXNldD1BVVNfREFUQUZVU0lPTn5mb3JtYXRfa2V5PUFVUyRkYXRhZnVzaW9uJDcuNzMwNE9BVUVIQUxuQndBQUFBQUlBZ0VBQUFBQUVGVDRVQUFoQUE0QUFBQUFBQUFBQUFELi4xQUFBQUFBLi4uLi53QUFBQUFBQUFBQUFBQUFBQUFBQURFeUlFaHBaMmdnVXlCTlpXeGlBQUFBQUFBLSQkJA',
-  'aWQ9TWVsYm91cm5lIENlbnRyYWwsIEtpb3NrIDIsIEdyb3VuZCBGbG9vciAgMzAwIExvbnNkYWxlIFN0cmVldCwgTUVMQk9VUk5FICBWSUMgMzAwMCwgQXVzdHJhbGlhfmFsdF9rZXk9fmRhdGFzZXQ9QVVTX0RBVEFGVVNJT05-Zm9ybWF0X2tleT1BVVMkZGF0YWZ1c2lvbiQ3LjczMFZPQVVFSEFMbkJ3QUFBQUFJQWdFQUFBQUNXeUpBa0JnaEFRSVFDQ0FBQUFBQUFBQUFBUC4uWkFBQUFBRC4uLi4uQUFBQUFBQUFBQUFBQUFBQUFBQUFURzl1YzJSaGJHVWdVM1FnVFdWc1lnQUFBQUFBJCQk',
-];
-
-const App: React.FC = () => {
+const App: FC = () => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const id = useId();
   const inputId = `input-${id}`;
@@ -22,7 +16,7 @@ const App: React.FC = () => {
   const [fields, setFields] = useState<GlobalAddressKeyField[] | null>();
   const [error, setError] = useState<Error | null>(null);
 
-  const handleFormSubmit = useCallback<React.FormEventHandler<HTMLFormElement>>((e) => {
+  const handleFormSubmit = useCallback<FormEventHandler<HTMLFormElement>>((e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const globalAddressKey = data.get(INPUT_NAME);
@@ -58,7 +52,7 @@ const App: React.FC = () => {
     };
     window.addEventListener('paste', pasteHandler, { capture: true });
     return () => window.removeEventListener('paste', pasteHandler);
-  }, [])
+  }, []);
 
   return (
     <div className="App container my-5">
@@ -124,25 +118,7 @@ const App: React.FC = () => {
         <p>{error.message}</p>
       )}
 
-      {fields == null ? null : (
-        <ol className="my-5">
-          {fields.map(([name, value], i) => (
-            <li key={`${i}-${name}`} className="my-2">
-              <div className="d-flex gap-2 align-items-center">
-                <button
-                  type="button"
-                  className="btn btn-link p-0 font-monospace text-black fw-bold"
-                  onClick={() => navigator.clipboard.writeText(value)}
-                  title={`Click to copy the value of "${name}" to clipboard`}
-                >
-                  {name}
-                </button>
-                <input className="form-control font-monospace App-input" value={value} readOnly />
-              </div>
-            </li>
-          ))}
-        </ol>
-      )}
+      {fields == null ? null : <FieldsTable fields={fields} />}
     </div>
   );
 };
