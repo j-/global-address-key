@@ -118,7 +118,7 @@ const App: FC = () => {
         <p>{error.message}</p>
       )}
 
-      {fields == null ? null : <FieldsTable fields={fields} />}
+      {fields == null || fields.length === 0 ? null : <FieldsTable fields={fields} />}
     </div>
   );
 };

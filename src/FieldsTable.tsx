@@ -36,7 +36,7 @@ export const FieldsTable: FC<FieldsTableProps> = ({ fields }) => {
             </th>
             <td>
               <div className="d-flex flex-column h-100 mh-100 justify-space-between align-items-start gap-2 lh-base">
-                <div className="lh-base">
+                <div className="lh-sm">
                   <span className="FieldsTable-value font-monospace">{value}</span>
                   <span className="FieldsTable-length">{` (${value.length})`}</span>
                 </div>
