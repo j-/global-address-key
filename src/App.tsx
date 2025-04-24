@@ -43,15 +43,24 @@ const App: FC = () => {
     if (!input) return;
     const form = input.form;
     if (!form) return;
-    const pasteHandler = () => {
+    const handler = (e: Event) => {
+      if (e.type === 'input') {
+        const length = (e as InputEvent).data?.length ?? 0;
+        if (length !== 0) return;
+      }
+
       input.select();
       setTimeout(() => {
         form.requestSubmit();
         input.select();
       }, 0);
     };
-    window.addEventListener('paste', pasteHandler, { capture: true });
-    return () => window.removeEventListener('paste', pasteHandler);
+    window.addEventListener('paste', handler, { capture: true });
+    window.addEventListener('input', handler, { capture: true });
+    return () => {
+      window.removeEventListener('paste', handler);
+      window.removeEventListener('input', handler);
+    };
   }, []);
 
   return (
