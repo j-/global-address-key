@@ -113,7 +113,7 @@ const App: FC = () => {
                   e.currentTarget.form.requestSubmit();
                 }}
               >
-                Example {i + 1}
+                {`Example ${i + 1}`}
               </button>
             ))}
           </div>
